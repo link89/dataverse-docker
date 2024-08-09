@@ -30,8 +30,19 @@ docker compose build
 ```
 
 ### Start the services
+
 ```bash
+# unzip the installation package to dvinstall directory
+unzip download/dvinstall-6.3.zip
+
+# edit default.config and docker-compose.yml to set passwords and other configurations
+# and then copy the configuration to dvinstall directory
+cp default.config dvinstall
+
+# run extra setup
 ./setup.sh  
+
+# start the services
 docker compose up
 ```
 
