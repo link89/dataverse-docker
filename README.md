@@ -4,7 +4,7 @@ Towards production ready dataverse docker deployment.
 ## Introduction
 This repository is a collection of scripts and configurations to deploy dataverse in docker environment.
 
-Unlike the official docker project which depends on release images and new docker specified scripts,
+Unlike the official docker project which depends on customized images and docker specified scripts,
 this solution only depends on artifacts mentioned in the official installation guideline and popular docker base images.
 If you are already familiar with the official installation guide, you can easily customize this deployment.
 
