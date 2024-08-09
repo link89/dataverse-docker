@@ -1,0 +1,78 @@
+services:
+  dataverse:
+    build: ./
+    container_name: dataverse
+    ports:
+      - "8080:8080"
+      - "4848:4848"
+    depends_on:
+      - postgres
+      - rserve
+      - solr
+      - smtp
+    volumes:
+      - ./dvinstall:/tmp/dvinstall:ro
+    networks:
+      - dataverse
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgres  # don't change this as it's hardcoded in the Dataverse installation script
+      POSTGRES_PASSWORD: postgres # change me and update default.config
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - dataverse
+
+  rserve:
+    build: ./rserve
+    container_name: rserve
+    ports:
+      - "6311:6311"
+    environment:
+      - R_USER=rserve
+      - R_PASS=rserve  # change me, and update default.config
+    networks:
+      - dataverse
+
+  solr:
+    image: solr:9.4.1
+    container_name: solr
+    ports:
+      - "8983:8983"
+    environment:
+      - SOLR_OPTS=-Dsolr.jetty.request.header.size=65535
+    command:
+      - bash
+      - /tmp/solr-entrypoint.sh
+    volumes:
+      - ./data/solr:/var/solr  # ensure ./data/solr has 777 permissions
+      - ./dvinstall:/tmp/dvinstall:ro
+      - .static/solr-entrypoint.sh:/tmp/solr-entrypoint.sh:ro
+    networks:
+      - dataverse
+
+  smtp:
+    container_name: "smtp"
+    hostname: "smtp"
+    image: maildev/maildev:2.0.5
+    restart: on-failure
+    ports:
+      - "25:25" # smtp server
+    environment:
+      - MAILDEV_SMTP_PORT=25
+      - MAILDEV_MAIL_DIRECTORY=/mail
+    networks:
+      - dataverse
+    # volumes:
+    #   - ./data/smtp/data:/mail
+    tmpfs:
+      - /mail:mode=770,size=128M,uid=1000,gid=1000
+
+networks:
+  dataverse:
