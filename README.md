@@ -6,12 +6,12 @@ This repository is a collection of scripts and configurations to deploy datavers
 
 Unlike the official docker project which depends on customized images and docker specified scripts,
 this solution only depends on artifacts mentioned in the official installation guideline and popular docker base images.
-If you are already familiar with the official installation guide, you can easily customize this deployment.
+This project contains all you need to deploy and customize dataverse in docker environment.
+If you are already familiar with the official installation guide, you can easily customize it to fit your needs.
 
 ## Getting Started
 
 ### Download the installation package
-
 You need to download the following files according to the [official installation guide](http://guides.dataverse.org/en/6.3/installation/prerequisites.html):
 
 * dvinstall.zip
@@ -55,3 +55,13 @@ docker compose down
 docker container prune
 ./purge.sh
 ```
+
+## Tips
+
+### Manual configuration
+If you want to manually change the configuration, you can run the following command to enter the container:
+
+```bash
+docker exec -it dataverse /bin/bash
+```
+And then you can run commands like `/usr/local/payara6/bin/asadmin` to change the configuration.
