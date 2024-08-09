@@ -53,7 +53,7 @@ services:
     volumes:
       - ./data/solr:/var/solr  # ensure ./data/solr has 777 permissions
       - ./dvinstall:/tmp/dvinstall:ro
-      - .static/solr-entrypoint.sh:/tmp/solr-entrypoint.sh:ro
+      - ./static/solr-entrypoint.sh:/tmp/solr-entrypoint.sh:ro
     networks:
       - dataverse
 
