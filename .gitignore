@@ -1,6 +1,7 @@
 data/
 dvinstall/
 download/
+dist/
 
 
 *.zip

@@ -48,7 +48,6 @@ services:
     environment:
       - SOLR_OPTS=-Dsolr.jetty.request.header.size=65535
     command:
-      - bash
       - /tmp/solr-entrypoint.sh
     volumes:
       - ./data/solr:/var/solr  # ensure ./data/solr has 777 permissions

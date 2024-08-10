@@ -20,7 +20,6 @@ sleep 3  # wait more to be sure
 
 # install dataverse if default.config exists and inited file does not exist
 if [ ! -f /dataverse-installed ]; then
-
   if [ ! /tmp/dvinstall/default.config ]; then
     echo "default.config not found in dvinstall directory!"
     echo "You must add default.config to dvinstall directory for automated installation"
@@ -36,15 +35,21 @@ if [ ! -f /dataverse-installed ]; then
 
   # Run setup-all.sh again to work around 404 error
   # FIXME: ensure install process is robust!
-  sleep 5 && ./setup-all.sh
-  popd
-
+  sleep 10 && ./setup-all.sh || true  # ignore errors
   touch /dataverse-installed
+  popd
 else
   /usr/local/payara6/bin/asadmin start-domain domain1
 fi
 
-# tail the log file
+# if there is /tmp/update-config script, run it
+if [ -f /tmp/update-config ]; then
+  /tmp/update-config
+  # restart payara to apply changes
+  /usr/local/payara6/bin/asadmin restart-domain domain1
+fi
+
+# tail the log file to screen for debugging
 tail -f /usr/local/payara6/glassfish/domains/domain1/logs/server.log &
 
 # use ps and grep to check if domain1 is running
