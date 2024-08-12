@@ -18,8 +18,9 @@ while ! nc -z postgres 5432; do
 done
 sleep 3  # wait more to be sure
 
-# install dataverse if default.config exists and inited file does not exist
-if [ ! -f /dataverse-installed ]; then
+# config if /tmp/dvinstall directory exists
+if [ -d /tmp/dvinstall ]; then
+  # check if default.config exists
   if [ ! /tmp/dvinstall/default.config ]; then
     echo "default.config not found in dvinstall directory!"
     echo "You must add default.config to dvinstall directory for automated installation"
@@ -28,15 +29,12 @@ if [ ! -f /dataverse-installed ]; then
 
   # make a rw copy to avoid permission issues
   cp -r /tmp/dvinstall /tmp/dvinstall-rw
-
-  pushd /tmp/dvinstall-rw
   # install dataverse
+  pushd /tmp/dvinstall-rw
   python3 install.py -y -f --hostname 127.0.0.1
-
   # Run setup-all.sh again to work around 404 error
   # FIXME: ensure install process is robust!
   sleep 10 && ./setup-all.sh || true  # ignore errors
-  touch /dataverse-installed
   popd
 else
   /usr/local/payara6/bin/asadmin start-domain domain1
