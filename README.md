@@ -80,7 +80,7 @@ And don't forget to restart the domain after you make changes:
 /usr/local/payara6/bin/asadmin restart-domain domain1
 ```
 You should note that those configuration are not persistent, 
-to make them persistent you should use automatic configuration.
+to make them persistent you should use automatic configuration introduced in the next section.
 
 ### Automatic configuration
 If you want to automatically configure the dataverse, you can create a script and mount it to the container's `/tmp/dv-config`, you can use the `dv-config.sh.dist` as a start point.
