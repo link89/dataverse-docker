@@ -71,7 +71,7 @@ docker exec -it dataverse /bin/bash
 And then you can run commands like the below to configure the dataverse:
 
 ```bash
-/usr/local/payara6/bin/asadmin --user=admin --passwordfile=~/.gfclient/pass create-jvm-options -Ddataverse.files.directory=/var/lib/dataverse
+/usr/local/payara6/bin/asadmin create-jvm-options -Ddataverse.files.directory=/var/lib/dataverse
 ```
 
 And don't forget to restart the domain after you make changes:

@@ -1,5 +1,5 @@
 #!/bin/bash
-ASADMIN_CMD="/usr/local/payara6/bin/asadmin --user=admin --passwordfile=~/.gfclient/pass"
+ASADMIN_CMD="/usr/local/payara6/bin/asadmin"
 
 # set the hostname
 $ASADMIN_CMD create-jvm-options "-Ddataverse.fqdn="
