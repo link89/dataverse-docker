@@ -56,7 +56,11 @@ docker container prune
 ./purge.sh
 ```
 
-## Tips
+## Advanced Configuration
+All configuration options can be found in https://guides.dataverse.org/en/6.2/installation/config.html#jvm-options
+
+You can either manually configure the dataverse by entering the container, 
+or update them automatically by editing and mounting a `dv-config.sh` script to the container.
 
 ### Manual configuration
 If you want to manually change the configuration, you can run the following command to enter the container:
@@ -64,4 +68,19 @@ If you want to manually change the configuration, you can run the following comm
 ```bash
 docker exec -it dataverse /bin/bash
 ```
-And then you can run commands like `/usr/local/payara6/bin/asadmin` to change the configuration.
+And then you can run commands like the below to configure the dataverse:
+
+```bash
+/usr/local/payara6/bin/asadmin --user=admin --passwordfile=~/.gfclient/pass create-jvm-options -Ddataverse.files.directory=/var/lib/dataverse
+```
+
+And don't forget to restart the domain after you make changes:
+
+```bash
+/usr/local/payara6/bin/asadmin restart-domain domain1
+```
+
+### Automatic configuration
+If you want to automatically configure the dataverse, you can create a script and mount it to the container's `/tmp/dv-config`, you can use the `dv-config.sh.dist` as a start point.
+
+

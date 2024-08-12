@@ -1,0 +1,13 @@
+#!/bin/bash
+ASADMIN_CMD="/usr/local/payara6/bin/asadmin --user=admin --passwordfile=~/.gfclient/pass"
+
+# set the hostname
+$ASADMIN_CMD create-jvm-options "-Ddataverse.fqdn="
+$ASADMIN_CMD create-jvm-options "-Ddataverse.siteUrl="
+
+# turn off user signup
+curl -X PUT -d 'false' http://localhost:8080/api/admin/settings/:AllowSignUp
+# set default auth provider
+curl -X PUT -d oidc-mpconfig http://localhost:8080/api/admin/settings/:DefaultAuthProvider
+
+

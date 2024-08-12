@@ -44,7 +44,7 @@ fi
 
 # if there is /tmp/update-config script, run it
 if [ -f /tmp/update-config ]; then
-  /tmp/update-config
+  /tmp/dv-config
   # restart payara to apply changes
   /usr/local/payara6/bin/asadmin restart-domain domain1
 fi

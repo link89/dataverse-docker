@@ -4,7 +4,7 @@ services:
     container_name: dataverse
     ports:
       - "8080:8080"
-      - "4848:4848"
+      # - "4848:4848"  # payara admin
     depends_on:
       - postgres
       - rserve
@@ -12,8 +12,12 @@ services:
       - smtp
     volumes:
       - ./dvinstall:/tmp/dvinstall:ro
+      # mount automation config script
+      # - ./dv-config.sh:/tmp/dv-config
     networks:
       - dataverse
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   postgres:
     image: postgres:13
@@ -22,8 +26,8 @@ services:
       POSTGRES_USER: postgres  # don't change this as it's hardcoded in the Dataverse installation script
       POSTGRES_PASSWORD: postgres # change me and update default.config
       POSTGRES_DB: postgres
-    ports:
-      - "5432:5432"
+    # ports:
+    #   - "5432:5432"
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     networks:
@@ -32,8 +36,8 @@ services:
   rserve:
     build: ./rserve
     container_name: rserve
-    ports:
-      - "6311:6311"
+    # ports:
+    #   - "6311:6311"
     environment:
       - R_USER=rserve
       - R_PASS=rserve  # change me, and update default.config
@@ -43,8 +47,8 @@ services:
   solr:
     image: solr:9.4.1
     container_name: solr
-    ports:
-      - "8983:8983"
+    # ports:
+    #   - "8983:8983"
     environment:
       - SOLR_OPTS=-Dsolr.jetty.request.header.size=65535
     command:
@@ -61,8 +65,8 @@ services:
     hostname: "smtp"
     image: maildev/maildev:2.0.5
     restart: on-failure
-    ports:
-      - "25:25" # smtp server
+    # ports:
+    #   - "25:25" # smtp server
     environment:
       - MAILDEV_SMTP_PORT=25
       - MAILDEV_MAIL_DIRECTORY=/mail
