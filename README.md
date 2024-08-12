@@ -80,7 +80,19 @@ And don't forget to restart the domain after you make changes:
 /usr/local/payara6/bin/asadmin restart-domain domain1
 ```
 
+You should note that those configuration are not persistent, 
+to make them persistent you should use automatic configuration.
+
 ### Automatic configuration
 If you want to automatically configure the dataverse, you can create a script and mount it to the container's `/tmp/dv-config`, you can use the `dv-config.sh.dist` as a start point.
 
+
+## FAQ
+
+### Fix broken Chinese characters
+
+If you have chinese characters in your custom page, you need to add the following jvm option to the payara server:
+```bash
+/usr/local/payara6/bin/asadmin create-jvm-options "-Dfile.encoding=UTF8"    
+```
 
