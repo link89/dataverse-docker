@@ -7,3 +7,6 @@ dist/
 *.zip
 *.gz
 *.tgz
+
+dv-config.sh
+docker-compose.yml

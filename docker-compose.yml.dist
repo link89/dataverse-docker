@@ -11,10 +11,11 @@ services:
       - solr
       - smtp
     volumes:
+      # mount installation
       - ./dvinstall:/tmp/dvinstall:ro
-      # mount automation config script
-      - ./dv-config.sh:/tmp/dv-config
-      - ./data/dv-files:/mnt/files
+      # mount setup script
+      # - ./dv-config.sh:/tmp/dv-config
+
     networks:
       - dataverse
     extra_hosts:

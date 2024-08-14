@@ -1,13 +1,70 @@
 #!/bin/bash
 ASADMIN_CMD="/usr/local/payara6/bin/asadmin"
 
-# set the hostname
-$ASADMIN_CMD create-jvm-options "-Ddataverse.fqdn="
-$ASADMIN_CMD create-jvm-options "-Ddataverse.siteUrl="
+echo "Before update jvm options"
+$ASADMIN_CMD list-jvm-options
 
-# turn off user signup
-curl -X PUT -d 'false' http://localhost:8080/api/admin/settings/:AllowSignUp
-# set default auth provider
-curl -X PUT -d oidc-mpconfig http://localhost:8080/api/admin/settings/:DefaultAuthProvider
+DELETE_OPTIONS=(
+    "-Ddataverse.pid.providers=fake"
+    "-Ddataverse.pid.fake.type=FAKE"
+    "-Ddataverse.pid.fake.label=Fake DOI Provider"
+    "-Ddataverse.pid.fake.authority=10.5072"
+    "-Ddataverse.pid.fake.shoulder=FK2/"
+    "-Ddataverse.pid.default-provider=fake"
+    "-Ddataverse.files.directory=/usr/local/payara6/glassfish/domains/domain1/files"
+    "-Ddataverse.files.file.directory=/usr/local/payara6/glassfish/domains/domain1/files"
+    )
 
+for opt in "${DELETE_OPTIONS[@]}" ; do
+    $ASADMIN_CMD delete-jvm-options "$opt"
+done
+echo "After remove old jvm options"
+$ASADMIN_CMD list-jvm-options
 
+UPDATE_OPTIONS=(
+    # "-Ddataverse.fqdn=dataverse.ikkem.com"
+    # "-Ddataverse.siteUrl='https://dataverse.ikkem.com'"
+    "-Ddataverse.pid.providers=chinesedoi"
+    "-Ddataverse.pid.chinesedoi.type=anydoi"
+    "-Ddataverse.pid.chinesedoi.label=Chinese DOI"
+    "-Ddataverse.pid.chinesedoi.authority=10.1234"
+    "-Ddataverse.pid.chinesedoi.shoulder=ai4ec."
+    "-Ddataverse.pid.chinesedoi.anydoi.url='http://host.docker.internal:8520'"
+    "-Ddataverse.pid.default-provider=chinesedoi"
+    "-Ddataverse.mail.system-email='johndoe@example.com'"
+    "-Ddataverse.mail.mta.host=smtp.example.com"
+    "-Ddataverse.mail.mta.port=465"
+    "-Ddataverse.mail.mta.ssl.enable=true"
+    "-Ddataverse.mail.mta.auth=true"
+    "-Ddataverse.mail.mta.user='johndoe@example.com'"
+    "-Ddataverse.mail.mta.password=YOUR_PASSWORD"
+    "-Ddataverse.mail.mta.allow-utf8-addresses=true"
+    "-Ddataverse.files.directory=/mnt/files"
+    "-Ddataverse.files.file.directory=/mnt/files"
+    )
+
+for opt in "${UPDATE_OPTIONS[@]}" ; do
+    $ASADMIN_CMD create-jvm-options "$opt"
+done
+
+# list all JVM options
+echo "After remove create new jvm options"
+$ASADMIN_CMD list-jvm-options
+
+# add oauth login provider
+OAUTH_CONFIG_JSON='{
+    "id":"casdoor",
+    "factoryAlias":"oidc",
+    "title":"Casdoor",
+    "subtitle":"Login with Casdoor",
+    "factoryData":"type: oidc | issuer: https://casdoor.com/ | clientId: you-client-id | clientSecret: your-client-secret",
+    "enabled":true
+}'
+
+curl -v --fail http://localhost:8080/api/admin/authenticationProviders/casdoor || \
+curl -v -X POST -H "Content-Type: application/json" -d "$OAUTH_CONFIG_JSON" http://localhost:8080/api/admin/authenticationProviders
+
+# disable signup and change default auth provider
+curl -v -X PUT -d 'false' http://localhost:8080/api/admin/settings/:AllowSignUp
+curl -v -X PUT -d casdoor http://localhost:8080/api/admin/settings/:DefaultAuthProvider
+curl -v -X PUT -d '{"default":"false","casdoor":"true"}' http://localhost:8080/api/admin/settings/:AllowRemoteAuthSignUp
