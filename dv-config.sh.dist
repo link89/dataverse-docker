@@ -41,6 +41,7 @@ UPDATE_OPTIONS=(
     "-Ddataverse.mail.mta.allow-utf8-addresses=true"
     "-Ddataverse.files.directory=/mnt/files"
     "-Ddataverse.files.file.directory=/mnt/files"
+    "-Dfile.encoding=UTF8"
     )
 
 for opt in "${UPDATE_OPTIONS[@]}" ; do

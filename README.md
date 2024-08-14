@@ -6,8 +6,10 @@ This repository is a collection of scripts and configurations to deploy datavers
 
 Unlike the official docker project which depends on customized images and docker specified scripts,
 this solution only depends on artifacts mentioned in the official installation guideline and popular docker base images.
-This project contains all you need to deploy and customize dataverse in docker environment.
-If you are already familiar with the official installation guide, you can easily customize it to fit your needs.
+This project contains all you need to customize and deploy dataverse in docker environment.
+
+If you are already familiar with the official installation, you will find it easy to migrate to this solution.
+Or you can use this as a test environment to try out the dataverse options before you apply them to your running service.
 
 ## Getting Started
 
@@ -17,20 +19,18 @@ You need to download the following files according to the [official installation
 * dvinstall.zip
 
 #### For 6.3, 6.2:
+* payara-6.2024.6.zip 
 * counter-processor-0.1.04.tar.gz
 * GeoLite2-Country_20240806.tar.gz
-* payara-6.2024.6.zip 
 
 Please download these files and put them in the `download` directory.
 
 ### Build the images
-
 ```bash
 docker compose build
 ```
 
 ### Start the services
-
 ```bash
 # unzip the installation package to dvinstall directory
 unzip download/dvinstall-6.3.zip
