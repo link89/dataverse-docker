@@ -16,11 +16,7 @@ COPY static/requirements.txt /tmp/requirements.txt
 RUN pip3 install -r /tmp/requirements.txt \
     && rm -rf /root/.cache/pip /tmp/requirements.txt
 
-# TODO: no need to install but mount to the container as volume
-COPY download/counter-processor-0.1.04.tar.gz /tmp/counter-processor.tar.gz
-RUN cd /usr/local \
-    && tar -xvf /tmp/counter-processor.tar.gz
-
+# install payara for dataverse
 COPY download/payara-6.2024.6.zip /tmp/payara.zip
 RUN useradd -m dataverse \
     && cd /usr/local \
@@ -29,7 +25,11 @@ RUN useradd -m dataverse \
     && chown dataverse /usr/local/payara6/glassfish/lib \
     && chown -R dataverse:dataverse /usr/local/payara6/glassfish/domains/domain1
 
-#
+# TODO: no need to install but mount to the container as volume
+COPY download/counter-processor-0.1.04.tar.gz /tmp/counter-processor.tar.gz
+RUN cd /usr/local \
+    && tar -xvf /tmp/counter-processor.tar.gz
+
 # don't change above commands unless necessary
 COPY static/dataverse-entrypoint.sh /scripts/dataverse-entrypoint.sh
 CMD ["/scripts/dataverse-entrypoint.sh"]

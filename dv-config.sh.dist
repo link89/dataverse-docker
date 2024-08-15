@@ -69,3 +69,9 @@ curl -v -X POST -H "Content-Type: application/json" -d "$OAUTH_CONFIG_JSON" http
 curl -v -X PUT -d 'false' http://localhost:8080/api/admin/settings/:AllowSignUp
 curl -v -X PUT -d casdoor http://localhost:8080/api/admin/settings/:DefaultAuthProvider
 curl -v -X PUT -d '{"default":"false","casdoor":"true"}' http://localhost:8080/api/admin/settings/:AllowRemoteAuthSignUp
+
+# set custom pages
+curl -X PUT -d '/mnt/custom-page/header.html' http://localhost:8080/api/admin/settings/:HeaderCustomizationFile
+curl -X PUT -d '/tmp/custom-page/footer.html' http://localhost:8080/api/admin/settings/:FooterCustomizationFile
+curl -X PUT -d '/tmp/custom-page/homepage.html' http://localhost:8080/api/admin/settings/:HomePageCustomizationFile
+curl -X PUT -d '/tmp/custom-page/stylesheet.css' http://localhost:8080/api/admin/settings/:StyleCustomizationFile
