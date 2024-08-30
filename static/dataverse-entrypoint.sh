@@ -40,9 +40,9 @@ else
   /usr/local/payara6/bin/asadmin start-domain domain1
 fi
 
-# if there is /mnt/update-config script, run it
-if [ -f /mnt/update-config ]; then
-  /mnt/update-config
+# if there is /mnt/dv-config script, run it
+if [ -f /mnt/dv-config ]; then
+  /mnt/dv-config
   # restart payara to apply changes
   /usr/local/payara6/bin/asadmin restart-domain domain1
 fi
