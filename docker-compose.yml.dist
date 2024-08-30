@@ -14,7 +14,7 @@ services:
       # mount installation
       - ./dvinstall:/mnt/dvinstall:ro
       # mount setup script
-      # - ./dv-config/mnt/dv-config
+      # - ./dv-config/:mnt/dv-config
 
     networks:
       - dataverse
