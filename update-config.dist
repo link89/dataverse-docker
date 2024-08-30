@@ -72,6 +72,6 @@ curl -v -X PUT -d '{"default":"false","casdoor":"true"}' http://localhost:8080/a
 
 # set custom pages
 curl -X PUT -d '/mnt/custom-page/header.html' http://localhost:8080/api/admin/settings/:HeaderCustomizationFile
-curl -X PUT -d '/tmp/custom-page/footer.html' http://localhost:8080/api/admin/settings/:FooterCustomizationFile
-curl -X PUT -d '/tmp/custom-page/homepage.html' http://localhost:8080/api/admin/settings/:HomePageCustomizationFile
-curl -X PUT -d '/tmp/custom-page/stylesheet.css' http://localhost:8080/api/admin/settings/:StyleCustomizationFile
+curl -X PUT -d '/mnt/custom-page/footer.html' http://localhost:8080/api/admin/settings/:FooterCustomizationFile
+curl -X PUT -d '/mnt/custom-page/homepage.html' http://localhost:8080/api/admin/settings/:HomePageCustomizationFile
+curl -X PUT -d '/mnt/custom-page/stylesheet.css' http://localhost:8080/api/admin/settings/:StyleCustomizationFile

@@ -19,16 +19,16 @@ done
 sleep 3  # wait more to be sure
 
 # config if /tmp/dvinstall directory exists
-if [ -d /tmp/dvinstall ]; then
+if [ -d /mnt/dvinstall ]; then
   # check if default.config exists
-  if [ ! /tmp/dvinstall/default.config ]; then
+  if [ ! /mnt/dvinstall/default.config ]; then
     echo "default.config not found in dvinstall directory!"
     echo "You must add default.config to dvinstall directory for automated installation"
     exit 1
   fi
 
   # make a rw copy to avoid permission issues
-  cp -r /tmp/dvinstall /tmp/dvinstall-rw
+  cp -r /mnt/dvinstall /tmp/dvinstall-rw
   # install dataverse
   pushd /tmp/dvinstall-rw
   python3 install.py -y -f --hostname 127.0.0.1
@@ -40,9 +40,9 @@ else
   /usr/local/payara6/bin/asadmin start-domain domain1
 fi
 
-# if there is /tmp/update-config script, run it
-if [ -f /tmp/update-config ]; then
-  /tmp/dv-config
+# if there is /mnt/update-config script, run it
+if [ -f /mnt/update-config ]; then
+  /mnt/update-config
   # restart payara to apply changes
   /usr/local/payara6/bin/asadmin restart-domain domain1
 fi

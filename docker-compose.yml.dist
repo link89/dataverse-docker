@@ -12,9 +12,9 @@ services:
       - smtp
     volumes:
       # mount installation
-      - ./dvinstall:/tmp/dvinstall:ro
+      - ./dvinstall:/mnt/dvinstall:ro
       # mount setup script
-      # - ./dv-config.sh:/tmp/dv-config
+      # - ./dv-config.sh:/mnt/update-config
 
     networks:
       - dataverse
@@ -54,29 +54,29 @@ services:
     environment:
       - SOLR_OPTS=-Dsolr.jetty.request.header.size=65535
     command:
-      - /tmp/solr-entrypoint.sh
+      - /mnt/solr-entrypoint.sh
     volumes:
       - ./data/solr:/var/solr  # ensure ./data/solr has 777 permissions
-      - ./dvinstall:/tmp/dvinstall:ro
-      - ./static/solr-entrypoint.sh:/tmp/solr-entrypoint.sh:ro
+      - ./dvinstall:/mnt/dvinstall:ro
+      - ./static/solr-entrypoint.sh:/mnt/solr-entrypoint.sh:ro
     networks:
       - dataverse
 
-  smtp:
-    container_name: "smtp"
-    hostname: "smtp"
-    image: maildev/maildev:2.0.5
-    # ports:
-    #   - "25:25" # smtp server
-    environment:
-      - MAILDEV_SMTP_PORT=25
-      - MAILDEV_MAIL_DIRECTORY=/mail
-    networks:
-      - dataverse
-    # volumes:
-    #   - ./data/smtp/data:/mail
-    tmpfs:
-      - /mail:mode=770,size=128M,uid=1000,gid=1000
+#  smtp:
+#    container_name: "smtp"
+#    hostname: "smtp"
+#    image: maildev/maildev:2.0.5
+#    # ports:
+#    #   - "25:25" # smtp server
+#    environment:
+#      - MAILDEV_SMTP_PORT=25
+#      - MAILDEV_MAIL_DIRECTORY=/mail
+#    networks:
+#      - dataverse
+#    # volumes:
+#    #   - ./data/smtp/data:/mail
+#    tmpfs:
+#      - /mail:mode=770,size=128M,uid=1000,gid=1000
 
 networks:
   dataverse:
