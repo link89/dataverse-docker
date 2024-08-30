@@ -23,7 +23,7 @@ RUN useradd -m dataverse \
     && unzip /tmp/payara.zip \
     && chown -R root:root /usr/local/payara6 \
     && chown dataverse /usr/local/payara6/glassfish/lib \
-    && chown -R dataverse:dataverse /usr/local/payara6/glassfish/domains/domain1
+    && chown -R dataverse:dataverse /usr/local/payara6/glassfish/domains/domain1 \
     && rm /tmp/payara.zip
 
 # don't change above commands unless necessary

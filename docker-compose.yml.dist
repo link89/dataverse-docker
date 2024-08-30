@@ -9,7 +9,7 @@ services:
       - postgres
       - rserve
       - solr
-      - smtp
+      # - smtp
     volumes:
       # mount installation
       - ./dvinstall:/mnt/dvinstall:ro
