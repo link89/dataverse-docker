@@ -27,10 +27,12 @@ Please download these files and put them in the `download` directory.
 
 ### Build the images
 ```bash
+# use docker-compose.yml.dist as a start point
 cp docker-compose.yml.dist docker-compose.yml
 
 # edit docker-compose.yml to set passwords and other configurations
 
+# build the images
 docker compose build
 ```
 
