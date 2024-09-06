@@ -27,6 +27,10 @@ Please download these files and put them in the `download` directory.
 
 ### Build the images
 ```bash
+cp docker-compose.yml.dist docker-compose.yml
+
+# edit docker-compose.yml to set passwords and other configurations
+
 docker compose build
 ```
 
@@ -46,7 +50,7 @@ cp default.config dvinstall
 docker compose up
 ```
 
-And that's it! You can access the dataverse at `http://localhost:8080`
+And that's it! You can access the dataverse at `http://localhost:8080` after waiting for a few minutes.
 
 if you want to clean up and start over, you can run:
 
@@ -59,31 +63,10 @@ docker container prune
 ## Advanced Configuration
 All configuration options can be found in https://guides.dataverse.org/en/6.2/installation/config.html#jvm-options
 
-You can either manually configure the dataverse by entering the container, 
-or update them automatically by editing and mounting a `dv-config.sh` script to the container.
-
-### Manual configuration
-If you want to manually change the configuration, you can run the following command to enter the container:
-
-```bash
-docker exec -it dataverse /bin/bash
-```
-And then you can run commands like the below to configure the dataverse:
-
-```bash
-/usr/local/payara6/bin/asadmin create-jvm-options -Ddataverse.files.directory=/var/lib/dataverse
-```
-
-And don't forget to restart the domain after you make changes:
-
-```bash
-/usr/local/payara6/bin/asadmin restart-domain domain1
-```
-You should note that those configuration are not persistent, 
-to make them persistent you should use automatic configuration introduced in the next section.
-
 ### Automatic configuration
-If you want to automatically configure the dataverse, you can create a script and mount it to the container's `/tmp/dv-config`, you can use the `dv-config.sh.dist` as a start point.
+If you want to automatically configure the dataverse, you can create a script and mount it to the container's `/mnt/dv-config`, you can use the `dv-config.dist` as a start point.
+
+Don't forget to grant the script execution permission by running `chmod +x dv-config`.
 
 ## FAQ
 
@@ -93,3 +76,6 @@ If you have chinese characters in your custom page, you need to add the followin
 ```bash
 /usr/local/payara6/bin/asadmin create-jvm-options "-Dfile.encoding=UTF8"    
 ```
+
+## Examples
+* https://dataverse.ikkem.com - A production ready dataverse deployment using this project.
